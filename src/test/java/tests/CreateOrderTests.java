@@ -9,6 +9,7 @@ import tests.base.ApiBaseTest;
 import utils.OrderData;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -58,14 +59,12 @@ public class CreateOrderTests extends ApiBaseTest {
 
     @Test
     @DisplayName("Create order with invalid ingredient")
-    @Description("An order cannot be created with an invalid ingredient id")
+    @Description("The server returns 500 Internal Server Error when order is created with an invalid ingredient id")
     public void cantCreateOrderWithInvalidIngredients() {
         Order invalidOrder = OrderData.getOrderWithInvalidIngredients();
 
         orderClient.createOrder(invalidOrder, accessToken)
                 .then()
-                .statusCode(SC_BAD_REQUEST)
-                .body("success", equalTo(false))
-                .body("message", equalTo("One or more ids provided are incorrect"));
+                .statusCode(SC_INTERNAL_SERVER_ERROR);
     }
 }

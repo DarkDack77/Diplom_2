@@ -3,35 +3,26 @@ package utils;
 import io.qameta.allure.Step;
 import model.Order;
 
+import java.util.Collections;
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
-
 public class OrderData {
-    private static final String BASE_URL = "https://stellarburgers.education-services.ru";
-    private static final String INVALID_INGREDIENT = "invalid_hash";
 
-    @Step("Create order with valid ingredients")
+    @Step("Создание заказа с валидными ингредиентами")
     public static Order getOrderWithIngredients() {
-        List<String> ingredients = given()
-                .when()
-                .get(BASE_URL + "/api/ingredients")
-                .then()
-                .statusCode(200)
-                .extract()
-                .jsonPath()
-                .getList("data._id");
-
-        return new Order(ingredients.subList(0, 2));
+        return new Order(List.of(
+                "61c0c5a71d1f82001bdaaa6d",
+                "61c0c5a71d1f82001bdaaa6f"
+        ));
     }
 
-    @Step("Create empty order")
+    @Step("Создание заказа без ингредиентов")
     public static Order getEmptyOrder() {
         return new Order(null);
     }
 
-    @Step("Create order with invalid ingredient")
+    @Step("Создание заказа с невалидным ингредиентом")
     public static Order getOrderWithInvalidIngredients() {
-        return new Order(List.of(INVALID_INGREDIENT));
+        return new Order(Collections.singletonList("invalid"));
     }
 }

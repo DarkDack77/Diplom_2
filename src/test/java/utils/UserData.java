@@ -6,27 +6,44 @@ import model.User;
 import java.util.UUID;
 
 public class UserData {
+
     @Step("Генерация данных для уникального пользователя")
     public static User getUniqueUser() {
-        String uniqueEmail = "test_" + UUID.randomUUID().toString() + "@yandex.ru";
-        String uniquePassword = "password123";
-        String uniqueName = "Test User";
-
-        return new User(uniqueEmail, uniquePassword, uniqueName);
+        return new User(
+                generateEmail(),
+                "password123",
+                "Test User"
+        );
     }
 
-    @Step("Генерация пользователя с отсутствующим полем email")
+    @Step("Генерация пользователя без email")
     public static User getUserWithoutEmail() {
-        return new User(null, "password", "Name");
+        return new User(
+                null,
+                "password123",
+                "Test User"
+        );
     }
 
-    @Step("Генерация пользователя с отсутствующим полем password")
+    @Step("Генерация пользователя без password")
     public static User getUserWithoutPassword() {
-        return new User("test@yandex.ru", null, "Name");
+        return new User(
+                generateEmail(),
+                null,
+                "Test User"
+        );
     }
 
-    @Step("Генерация пользователя с отсутствующим полем name")
+    @Step("Генерация пользователя без name")
     public static User getUserWithoutName() {
-        return new User("test@yandex.ru", "password", null);
+        return new User(
+                generateEmail(),
+                "password123",
+                null
+        );
+    }
+
+    private static String generateEmail() {
+        return "test_" + UUID.randomUUID() + "@yandex.ru";
     }
 }
