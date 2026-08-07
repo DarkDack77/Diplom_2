@@ -1,0 +1,11 @@
+target/
+.idea/
+*.iml
+.m2repo/
+allure-results/
+allure-report/
+.DS_Store
+target/
+.allure/
+.idea/
+*.iml
